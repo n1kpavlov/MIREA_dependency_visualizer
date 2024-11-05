@@ -24,7 +24,9 @@ def get_dependencies(package_name: str, depth: int = 1) -> Dict[str, List[str]]:
 
 def generate_mermaid_graph(dependencies: Dict[str, List[str]]) -> str:
     mermaid_code = "graph TD;\n"
-    
+    for package, deps in dependencies.items():
+        for dep in deps:
+            mermaid_code += f"{package} --> {dep}\n"
     return mermaid_code
 
 def visualize_dependencies(mermaid_path: str, package_name: str, output_file: str, depth: int) -> None:
