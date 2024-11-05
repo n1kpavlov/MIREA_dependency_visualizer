@@ -15,6 +15,7 @@ def get_dependencies(package_name: str, depth: int = 1) -> Dict[str, List[str]]:
     if depth <= 0:
         return dependencies
 
+    # Получение метаданных пакета с NuGet
     response = requests.get(NUGET_API_URL)
     if response.status_code != 200:
         raise Exception(f"Ошибка получения данных с NuGet: {response.status_code}")
@@ -41,6 +42,14 @@ def visualize_dependencies(mermaid_path: str, package_name: str, output_file: st
     # Создание временного файла с кодом Mermaid
     with open("output", "w") as f:
         f.write(mermaid_code)
+
+    # Вызов Mermaid.js для генерации изображения
+    subprocess.run(["mermaid", "output", "-o", output_file])
+
+    # Удаление временного файла
+    os.remove("output")
+
+    print(f"Граф зависимостей для пакета '{package_name}' успешно сгенерирован и сохранен в файл '{output_file}'.")
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
