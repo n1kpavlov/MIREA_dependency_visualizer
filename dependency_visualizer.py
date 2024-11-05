@@ -22,8 +22,23 @@ def get_dependencies(package_name: str, depth: int = 1) -> Dict[str, List[str]]:
     data = response.json()
     print(data)
 
+def generate_mermaid_graph(dependencies: Dict[str, List[str]]) -> str:
+    mermaid_code = "graph TD;\n"
+    
+    return mermaid_code
+
 def visualize_dependencies(mermaid_path: str, package_name: str, output_file: str, depth: int) -> None:
-    dependencies = get_dependencies(package_name, depth)
+    #dependencies = get_dependencies(package_name, depth)
+    #mermaid_code = generate_mermaid_graph(dependencies)
+    mermaid_code = "graph TD;\n"
+    mermaid_code += f"1 --> 2\n"
+    mermaid_code += f"1 --> 3\n"
+    mermaid_code += f"2 --> 3\n"
+    mermaid_code += f"3 --> 4\n"
+
+    # Создание временного файла с кодом Mermaid
+    with open("output", "w") as f:
+        f.write(mermaid_code)
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
