@@ -15,6 +15,13 @@ def get_dependencies(package_name: str, depth: int = 1) -> Dict[str, List[str]]:
     if depth <= 0:
         return dependencies
 
+    response = requests.get(NUGET_API_URL)
+    if response.status_code != 200:
+        raise Exception(f"Ошибка получения данных с NuGet: {response.status_code}")
+
+    data = response.json()
+    print(data)
+
 def visualize_dependencies(mermaid_path: str, package_name: str, output_file: str, depth: int) -> None:
     dependencies = get_dependencies(package_name, depth)
 
