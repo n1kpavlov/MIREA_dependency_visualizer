@@ -16,20 +16,25 @@ def visualize_dependencies(mermaid_path, package_path, output_file, depth):
     mermaid_code = "graph TD;\n"
     mermaid_code += f"1 --> 2\n"
     mermaid_code += f"1 --> 3\n"
-    mermaid_code += f"2 --> 3\n"
+    mermaid_code += f"2 --> 8\n"
     mermaid_code += f"3 --> 4\n"
+    mermaid_code += f"4 --> 5\n"
+    mermaid_code += f"4 --> 6\n"
+    mermaid_code += f"4 --> 7\n"
+    mermaid_code += f"5 --> 8\n"
+    mermaid_code += f"6 --> 8\n"
 
     # Создание временного файла с кодом Mermaid
     with open("output", "w") as f:
         f.write(mermaid_code)
 
     # Вызов Mermaid.js для генерации изображения
-    subprocess.run(["mermaid", "output", "-o", output_file])
+    os.system(f"{mermaid_path} output -o {output_file}")
 
     # Удаление временного файла
     os.remove("output")
 
-    print(f"Граф зависимостей для пакета '{package_name}' успешно сгенерирован и сохранен в файл '{output_file}'.")
+    print(f"Граф зависимостей для пакета '{package_path}' успешно сгенерирован и сохранен в файл '{output_file}'.")
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
