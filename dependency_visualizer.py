@@ -10,7 +10,15 @@ def get_dependencies(package_path, depth, dependencies=None, visited=None):
         visited = set()
 
     with zipfile.ZipFile(package_path, 'r') as z:
-        
+        for filename in z.namelist():
+            if filename.endswith('.nuspec'):
+                with z.open(filename) as file:
+                    tree = ET.parse(file)
+                    root = tree.getroot()
+                    ns = {'n': root.tag.split('}')[0].strip('{')}
+                    package_id = root.find('.//n:metadata/n:id', ns).text
+                    package_version = root.find('.//n:metadata/n:version', ns).text
+
     return dependencies
 
 def generate_mermaid_graph(dependencies):
