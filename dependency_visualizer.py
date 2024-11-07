@@ -2,18 +2,16 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 
-def get_dependencies(package_name, depth):
+def get_dependencies(package_path, depth):
     
 
 def generate_mermaid_graph(dependencies):
     mermaid_code = "graph TD;\n"
-    for package, deps in dependencies.items():
-        for dep in deps:
-            mermaid_code += f"{package} --> {dep}\n"
+    
     return mermaid_code
 
-def visualize_dependencies(mermaid_path, package_name, output_file, depth):
-    #dependencies = get_dependencies(package_name, depth)
+def visualize_dependencies(mermaid_path, package_path, output_file, depth):
+    #dependencies = get_dependencies(package_path, depth)
     #mermaid_code = generate_mermaid_graph(dependencies)
     mermaid_code = "graph TD;\n"
     mermaid_code += f"1 --> 2\n"
@@ -35,12 +33,12 @@ def visualize_dependencies(mermaid_path, package_name, output_file, depth):
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
-        print(f"Использование: {sys.argv[0]} <путь_к_mermaid.js> <имя_пакета> <путь_к_файлу_вывода> <максимальная_глубина>")
+        print(f"Использование: {sys.argv[0]} <путь_к_mermaid.js> <путь_к_пакету> <путь_к_файлу_вывода> <максимальная_глубина>")
         sys.exit(1)
 
     mermaid_path = sys.argv[1]
-    package_name = sys.argv[2]
+    package_path = sys.argv[2]
     output_file = sys.argv[3]
     max_depth = int(sys.argv[4])
 
-    visualize_dependencies(mermaid_path, package_name, output_file, max_depth)
+    visualize_dependencies(mermaid_path, package_path, output_file, max_depth)
