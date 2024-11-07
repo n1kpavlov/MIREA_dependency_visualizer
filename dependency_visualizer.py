@@ -36,12 +36,15 @@ def get_dependencies(package_path, depth, dependencies=None, visited=None):
 
 def generate_mermaid_graph(dependencies):
     mermaid_code = "graph TD;\n"
-    
+    for package, deps in dependencies.items():
+        for dep in deps:
+            mermaid_code += f"{package} --> {dep}\n"
     return mermaid_code
 
 def visualize_dependencies(mermaid_path, package_path, output_file, depth):
-    #dependencies = get_dependencies(package_path, depth)
-    #mermaid_code = generate_mermaid_graph(dependencies)
+    dependencies = get_dependencies(package_path, depth)
+    mermaid_code = generate_mermaid_graph(dependencies)
+    """
     mermaid_code = "graph TD;\n"
     mermaid_code += f"1 --> 2\n"
     mermaid_code += f"1 --> 3\n"
@@ -52,7 +55,7 @@ def visualize_dependencies(mermaid_path, package_path, output_file, depth):
     mermaid_code += f"4 --> 7\n"
     mermaid_code += f"5 --> 8\n"
     mermaid_code += f"6 --> 8\n"
-
+    """
     # Создание временного файла с кодом Mermaid
     with open("output", "w") as f:
         f.write(mermaid_code)
