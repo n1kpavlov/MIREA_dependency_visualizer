@@ -1,9 +1,17 @@
 import os
 import sys
+import zipfile
 import xml.etree.ElementTree as ET
 
-def get_dependencies(package_path, depth):
-    
+def get_dependencies(package_path, depth, dependencies=None, visited=None):
+    if dependencies is None:
+        dependencies = {}
+    if visited is None:
+        visited = set()
+
+    with zipfile.ZipFile(package_path, 'r') as z:
+        
+    return dependencies
 
 def generate_mermaid_graph(dependencies):
     mermaid_code = "graph TD;\n"
