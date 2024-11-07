@@ -1,36 +1,18 @@
 import os
 import sys
-import subprocess
-import requests
 import xml.etree.ElementTree as ET
-from typing import Dict, List
 
-NUGET_API_URL = "https://api.nuget.org/v3/index.json"
-MAX_DEPTH = 10
+def get_dependencies(package_name, depth):
+    
 
-def get_dependencies(package_name: str, depth: int = 1) -> Dict[str, List[str]]:
-    dependencies = {}
-    dependencies[package_name] = []
-
-    if depth <= 0:
-        return dependencies
-
-    # Получение метаданных пакета с NuGet
-    response = requests.get(NUGET_API_URL)
-    if response.status_code != 200:
-        raise Exception(f"Ошибка получения данных с NuGet: {response.status_code}")
-
-    data = response.json()
-    print(data)
-
-def generate_mermaid_graph(dependencies: Dict[str, List[str]]) -> str:
+def generate_mermaid_graph(dependencies):
     mermaid_code = "graph TD;\n"
     for package, deps in dependencies.items():
         for dep in deps:
             mermaid_code += f"{package} --> {dep}\n"
     return mermaid_code
 
-def visualize_dependencies(mermaid_path: str, package_name: str, output_file: str, depth: int) -> None:
+def visualize_dependencies(mermaid_path, package_name, output_file, depth):
     #dependencies = get_dependencies(package_name, depth)
     #mermaid_code = generate_mermaid_graph(dependencies)
     mermaid_code = "graph TD;\n"
