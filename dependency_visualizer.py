@@ -8,8 +8,9 @@ def get_dependencies(package_path, depth, dependencies=None, visited=None):
         dependencies = {}
     if visited is None:
         visited = set()
-
-    with zipfile.ZipFile(package_path, 'r') as z:
+        
+    if depth > 0:
+        with zipfile.ZipFile(package_path, 'r') as z:
         for filename in z.namelist():
             if filename.endswith('.nuspec'):
                 with z.open(filename) as file:
@@ -34,9 +35,10 @@ def get_dependencies(package_path, depth, dependencies=None, visited=None):
                                     os.system(f"curl -o {dep_package.lower()}.{dep_version}.nupkg https://api.nuget.org/v3-flatcontainer/{dep_package.lower()}/{dep_version}/{dep_package.lower()}.{dep_version}.nupkg")
 
                                     dep_nupkg_path = f"{dep_package.lower()}.{dep_version}.nupkg"
-                                    get_dependencies(dep_nupkg_path, depth, dependencies, visited)
+                                    get_dependencies(dep_nupkg_path, depth - 1, dependencies, visited)
 
                                     os.remove(f"{dep_package.lower()}.{dep_version}.nupkg")
+    
     return dependencies
 
 def generate_mermaid_graph(dependencies):
