@@ -31,7 +31,12 @@ def get_dependencies(package_path, depth, dependencies=None, visited=None):
                                     dependencies[f"{package_id}:{package_version}"].append(f"{dep_package}:{dep_version}")
 
                                 if f"{dep_package}:{dep_version}" not in visited:
-                                    #рекурсия
+                                    os.system(f"curl -o {dep_package.lower()}.{dep_version}.nupkg https://api.nuget.org/v3-flatcontainer/{dep_package.lower()}/{dep_version}/{dep_package.lower()}.{dep_version}.nupkg")
+
+                                    dep_nupkg_path = f"{dep_package.lower()}.{dep_version}.nupkg"
+                                    get_dependencies(dep_nupkg_path, depth, dependencies, visited)
+
+                                    os.remove(f"{dep_package.lower()}.{dep_version}.nupkg")
     return dependencies
 
 def generate_mermaid_graph(dependencies):
