@@ -18,7 +18,14 @@ def get_dependencies(package_path, depth, dependencies=None, visited=None):
                     ns = {'n': root.tag.split('}')[0].strip('{')}
                     package_id = root.find('.//n:metadata/n:id', ns).text
                     package_version = root.find('.//n:metadata/n:version', ns).text
+                    
+                    if package_id not in visited:
+                        visited.add(package_id)
 
+                        for dep_group in root.findall('.//n:dependencies', ns):
+                            for dep in dep_group.findall('.//n:dependency', ns):
+                                dep_package = dep.attrib['id']
+                                dep_version = dep.attrib['version']
     return dependencies
 
 def generate_mermaid_graph(dependencies):
