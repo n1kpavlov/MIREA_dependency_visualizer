@@ -39,3 +39,70 @@ python dependency_visualizer.py <путь_к_mermaid.js> <путь_к_анали
 ### Граф зависимостей пакета Newtonsoft.Json с неограниченной глубиной анализа
 ![output](https://github.com/user-attachments/assets/3ec712c3-4c0f-4c69-80c3-942fac24ab6b)
 # Результаты тестирования
+### Тест функции получения зависимостей с глубиной анализа меньше 1
+```
+def test_empty_dependencies(self):
+    package_path = "newtonsoft.json.13.0.3.nupkg"
+    depth = 0
+    dependencies = get_dependencies(package_path, depth)
+    self.assertEqual(dependencies, {})
+```
+### Тест функции получения зависимостей пакета newtonsoft.json.13.0.3.nupkg с глубиной анализа 1
+```
+def test_dependencies(self):
+    package_path = "newtonsoft.json.13.0.3.nupkg"
+    depth = 1
+    dependencies = get_dependencies(package_path, depth)
+    self.assertEqual(dependencies, {'Newtonsoft.Json:13.0.3': ['Microsoft.CSharp:4.3.0',
+                            'NETStandard.Library:1.6.1',
+                            'System.ComponentModel.TypeConverter:4.3.0',
+                            'System.Runtime.Serialization.Primitives:4.3.0',
+                            'System.Runtime.Serialization.Formatters:4.3.0',
+                            'System.Xml.XmlDocument:4.3.0']})
+```
+### Тест функции генерации кода Mermaid с пустым списком зависимостей
+```
+def test_empty_dependencies(self):
+    dependencies = {}
+    mermaid_code = generate_mermaid_graph(dependencies)
+    self.assertEqual(mermaid_code, "graph TD;\n")
+```
+### Тест функции генерации кода Mermaid с одной зависимостью
+```
+def test_single_dependency(self):
+    dependencies = {"TestPackage:1.0.0": ["DependencyPackage:1.0.0"]}
+    mermaid_code = generate_mermaid_graph(dependencies)
+    self.assertEqual(mermaid_code, "graph TD;\nTestPackage:1.0.0 --> DependencyPackage:1.0.0\n")
+```
+### Тест функции генерации кода Mermaid с несколькими зависимостями
+```
+def test_multiple_dependencies(self):
+    dependencies = {"TestPackage:1.0.0": ["DependencyPackage:1.0.0", "AnotherDependency:1.0.0"]}
+    mermaid_code = generate_mermaid_graph(dependencies)
+    self.assertEqual(mermaid_code, "graph TD;\nTestPackage:1.0.0 --> DependencyPackage:1.0.0\nTestPackage:1.0.0 --> AnotherDependency:1.0.0\n")
+```
+### Тест функции генерации кода Mermaid с цепной зависимостью
+```
+def test_nested_dependencies(self):
+    dependencies = {"TestPackage:1.0.0": ["DependencyPackage:1.0.0"], "DependencyPackage:1.0.0": ["NestedDependency:1.0.0"]}
+    mermaid_code = generate_mermaid_graph(dependencies)
+    self.assertEqual(mermaid_code, "graph TD;\nTestPackage:1.0.0 --> DependencyPackage:1.0.0\nDependencyPackage:1.0.0 --> NestedDependency:1.0.0\n")
+```
+### Тест функции генерации кода Mermaid с кольцевой зависимостью
+```
+def test_circular_dependencies(self):
+    dependencies = {"TestPackage:1.0.0": ["DependencyPackage:1.0.0"], "DependencyPackage:1.0.0": ["CircularDependency:1.0.0"], "CircularDependency:1.0.0": ["TestPackage:1.0.0"]}
+    mermaid_code = generate_mermaid_graph(dependencies)
+    self.assertEqual(mermaid_code, "graph TD;\nTestPackage:1.0.0 --> DependencyPackage:1.0.0\nDependencyPackage:1.0.0 --> CircularDependency:1.0.0\nCircularDependency:1.0.0 --> TestPackage:1.0.0\n")
+```
+### Тестирование вызова функции с несуществующими файлами
+```
+def test_visualize_dependencies_call(self):
+    mermaid_path = "mermaid"
+    package_path = "test_package.nupkg"
+    output_file = "test.png"
+    depth = 1
+    with self.assertRaises(FileNotFoundError):
+        visualize_dependencies(mermaid_path, package_path, output_file, depth)
+```
+![image](https://github.com/user-attachments/assets/08078101-ca57-4820-b2f3-29bd2570d11c)
