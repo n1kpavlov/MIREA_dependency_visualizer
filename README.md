@@ -37,7 +37,7 @@ python dependency_visualizer.py <путь_к_mermaid.js> <путь_к_анали
 ### Граф зависимостей пакета Newtonsoft.Json с глубиной анализа 2
 ![output](https://github.com/user-attachments/assets/95259622-ce49-4ac6-a56a-eefd2742abe4)
 ### Граф зависимостей пакета Newtonsoft.Json с неограниченной глубиной анализа
-![output](https://github.com/user-attachments/assets/3ec712c3-4c0f-4c69-80c3-942fac24ab6b)
+![output](https://github.com/user-attachments/assets/c7949dff-abc3-4d79-ab11-d1b0fb17034f)
 # Результаты тестирования
 ### Тест функции получения зависимостей с глубиной анализа меньше 1
 ```
