@@ -21,11 +21,11 @@
 2. Установить программу для визуализации графов [Mermaid](https://mermaid.js.org/)
 3. Загрузить репозиторий на компьютер
 ```
-git clone https://github.com/n1kpavlov/MIREA_dependency_visualizer
+git clone https://github.com/n1kpavlov/dependency_visualizer
 ```
 4. Прейдите в директорию репозитория
 ```
-cd MIREA_dependency_visualizer
+cd dependency_visualizer
 ```
 5. Запустить dependency_visualizer.py с указанием всех необходимых ключей
 ```
